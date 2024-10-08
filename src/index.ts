@@ -53,6 +53,29 @@ app.get("/users/:id", async (req, res) => {
 });
 
 
+//Atualizar um usuário
+app.put("/update/:id", async (req, res) => {
+  const id = parseInt(req.params.id); 
+  const user = req.body;
+  try{
+    const criarusuario = await db.updateById(id, user);
+    res.status(201).json(criarusuario);
+  }catch(error){
+     res.status(500).json({message: 'Erro ao criar usuário', error})
+  }
+});
+
+// Remover por ID
+app.delete("/remove/:id", async (req, res) => {
+  const id = parseInt(req.params.id); 
+  try{
+    const usuario = await db.remove(id);
+    res.status(200).json(usuario);
+  }catch(error){
+     res.status(500).json({message: 'Usuário não localizado', error})
+  }
+});
+
 app.listen(port, () => {
   console.log(`Esse servidor está rodando em ${port}`);
 });
